@@ -132,6 +132,9 @@ public @if{method.typeParams.size() > 0}
 package @{ifacePackageName};\n
 \n
 import @{ifaceFQCN};\n
+@if{concreteSuperType != null}
+		import @{concreteSuperType.name}VertxEBProxy;\n
+@end{}
 import io.vertx.core.eventbus.DeliveryOptions;\n
 import io.vertx.core.Vertx;\n
 import io.vertx.core.Future;\n
@@ -155,7 +158,11 @@ import io.vertx.serviceproxy.ProxyHelper;\n
   Generated Proxy code - DO NOT EDIT\n
   @author Roger the Robot\n
 */\n
-public class @{ifaceSimpleName}VertxEBProxy implements @{ifaceSimpleName} {\n
+public class @{ifaceSimpleName}VertxEBProxy
+@if{concreteSuperType != null}
+		 extends @{concreteSuperType.simpleName}VertxEBProxy
+@end{}
+ implements @{ifaceSimpleName} {\n
 \n
   private Vertx _vertx;\n
   private String _address;\n
@@ -167,6 +174,9 @@ public class @{ifaceSimpleName}VertxEBProxy implements @{ifaceSimpleName} {\n
   }\n
 \n
   public @{ifaceSimpleName}VertxEBProxy(Vertx vertx, String address, DeliveryOptions options) {\n
+@if{concreteSuperType != null}
+    super(vertx, address, options);\n
+@end{}
     this._vertx = vertx;\n
     this._address = address;\n
     this._options = options;\n

@@ -32,6 +32,9 @@ numericMapping = [
 package @{ifacePackageName};\n
 \n
 import @{ifaceFQCN};\n
+@if{concreteSuperType != null}
+		import @{concreteSuperType.name}VertxProxyHandler;\n
+@end{}
 import io.vertx.core.Vertx;\n
 import io.vertx.core.Handler;\n
 import io.vertx.core.AsyncResult;\n
@@ -62,7 +65,13 @@ import io.vertx.serviceproxy.ProxyHandler;\n
   Generated Proxy code - DO NOT EDIT\n
   @author Roger the Robot\n
 */\n
-public class @{ifaceSimpleName}VertxProxyHandler extends ProxyHandler {\n
+public class @{ifaceSimpleName}VertxProxyHandler extends
+@if{concreteSuperType != null}
+		 @{concreteSuperType.simpleName}VertxProxyHandler
+@else{}
+ ProxyHandler
+@end{}
+ {\n
 \n
   public static final long DEFAULT_CONNECTION_TIMEOUT = 5 * 60; // 5 minutes \n
 \n
@@ -81,6 +90,9 @@ public class @{ifaceSimpleName}VertxProxyHandler extends ProxyHandler {\n
   }\n
 \n
   public @{ifaceSimpleName}VertxProxyHandler(Vertx vertx, @{ifaceSimpleName} service, boolean topLevel, long timeoutSeconds) {\n
+@if{concreteSuperType != null}
+    super(vertx, service, topLevel, timeoutSeconds);\n
+@end{}
     this.vertx = vertx;\n
     this.service = service;\n
     this.timeoutSeconds = timeoutSeconds;\n
@@ -234,7 +246,11 @@ createHandler(msg)
 \n
 @end{}
         default: {\n
+@if{concreteSuperType != null}
+          super.handle(msg);\n
+@else{}
           throw new IllegalStateException("Invalid action: " + action);\n
+@end{}
         }\n
       }\n
 
